@@ -96,7 +96,7 @@ function App() {
         <div style={{ display: 'flex', justifyContent: 'center' }}>
           <div className="status-pill">
             <span className="status-dot" />
-            Website Suspended
+            vibeten.vercel.app
           </div>
         </div>
 
@@ -121,20 +121,14 @@ function App() {
         </div>
 
         {/* Title */}
-        <h1 className="card-title">Website Suspended</h1>
-
-        {/* Description */}
-        <p className="card-desc">
-          This site is no longer available.<br />
-          Access has been <span>permanently restricted</span> by administration.
-        </p>
+        <h1 className="card-title">Website Coming Soon</h1>
 
         {/* Back Button */}
         <button className="back-btn" onClick={handleGoBack}>
           <svg width="18" height="18" fill="none" stroke="currentColor" strokeWidth="2.2" viewBox="0 0 24 24">
             <path d="M19 12H5M12 19l-7-7 7-7" />
           </svg>
-          Go Back
+          1 JANUARY 2027 LAUNCH DATE
         </button>
       </main>
     </div>
