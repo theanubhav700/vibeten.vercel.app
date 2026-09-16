@@ -416,7 +416,7 @@ function App() {
         {/* Event status */}
         <div className="event-status">
           <span className="event-status-dot" />
-          EVENT SCHEDULED
+          <h1>EVENT SCHEDULED</h1>
         </div>
 
       </main>

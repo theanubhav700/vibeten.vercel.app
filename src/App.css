@@ -32,18 +32,10 @@ body {
   width: 100%;
   height: 100vh;
   overflow: hidden;
-
   display: flex;
   align-items: center;
   justify-content: center;
-
-  background:
-    radial-gradient(
-      circle at 50% 45%,
-      rgba(127, 29, 29, 0.12),
-      transparent 45%
-    ),
-    #030303;
+  background: #030303;
 }
 
 /* ================================
@@ -51,98 +43,16 @@ body {
 ================================ */
 
 .canvas-bg {
-  position: absolute;
-  inset: 0;
-
-  width: 100%;
-  height: 100%;
-
-  z-index: 0;
-  pointer-events: none;
+  display: none;
 }
 
 /* ================================
-   RED BACKGROUND GLOW
+   BACKGROUND
 ================================ */
 
-.bg-gradient-spot {
-  position: absolute;
-
-  width: 650px;
-  height: 650px;
-
-  left: 50%;
-  top: 50%;
-
-  transform: translate(-50%, -50%);
-
-  background:
-    radial-gradient(
-      circle,
-      rgba(239, 68, 68, 0.09) 0%,
-      rgba(239, 68, 68, 0.025) 30%,
-      transparent 70%
-    );
-
-  filter: blur(20px);
-
-  pointer-events: none;
-  z-index: 1;
-
-  animation: ambientGlow 5s ease-in-out infinite;
-}
-
-@keyframes ambientGlow {
-  0%,
-  100% {
-    opacity: 0.7;
-    transform: translate(-50%, -50%) scale(0.95);
-  }
-
-  50% {
-    opacity: 1;
-    transform: translate(-50%, -50%) scale(1.08);
-  }
-}
-
-/* ================================
-   GRID
-================================ */
-
-.grid-overlay {
-  position: absolute;
-  inset: 0;
-
-  z-index: 2;
-  pointer-events: none;
-
-  background-image:
-    linear-gradient(
-      rgba(255, 255, 255, 0.018) 1px,
-      transparent 1px
-    ),
-    linear-gradient(
-      90deg,
-      rgba(255, 255, 255, 0.018) 1px,
-      transparent 1px
-    );
-
-  background-size: 60px 60px;
-
-  mask-image:
-    radial-gradient(
-      ellipse at center,
-      black 0%,
-      transparent 75%
-    );
-
-  -webkit-mask-image:
-    radial-gradient(
-      ellipse at center,
-      black 0%,
-      transparent 75%
-    );
-}
+/* Background glow removed */
+/* Grid removed */
+/* Background is now completely dark */
 
 /* ================================
    LIVE TRACKER
@@ -150,32 +60,21 @@ body {
 
 .live-indicator {
   position: absolute;
-
   top: 28px;
   left: 32px;
-
   z-index: 10;
-
   display: flex;
   align-items: center;
   gap: 9px;
-
   padding: 8px 12px;
-
   border: 1px solid rgba(239, 68, 68, 0.15);
   border-radius: 999px;
-
   background: rgba(10, 5, 5, 0.45);
-
   backdrop-filter: blur(12px);
-
   color: rgba(252, 165, 165, 0.55);
-
   font-size: 9px;
   font-weight: 700;
-
   letter-spacing: 1.5px;
-
   box-shadow:
     0 0 20px rgba(239, 68, 68, 0.03);
 }
@@ -183,15 +82,11 @@ body {
 .live-dot {
   width: 6px;
   height: 6px;
-
   border-radius: 50%;
-
   background: #ef4444;
-
   box-shadow:
     0 0 7px rgba(239, 68, 68, 0.9),
     0 0 15px rgba(239, 68, 68, 0.35);
-
   animation: livePulse 1.4s ease-in-out infinite;
 }
 
@@ -214,33 +109,24 @@ body {
 
 .suspended-card {
   position: relative;
-
   z-index: 5;
-
   width: min(560px, calc(100% - 40px));
-
   padding: 52px 42px 44px;
-
   text-align: center;
-
   border: 1px solid rgba(255, 255, 255, 0.075);
   border-radius: 28px;
-
   background:
     linear-gradient(
       145deg,
       rgba(18, 18, 18, 0.88),
       rgba(6, 6, 6, 0.94)
     );
-
   backdrop-filter: blur(28px);
   -webkit-backdrop-filter: blur(28px);
-
   box-shadow:
     0 35px 100px rgba(0, 0, 0, 0.65),
     0 0 80px rgba(239, 68, 68, 0.045),
     inset 0 1px 0 rgba(255, 255, 255, 0.035);
-
   animation: cardFloat 6s ease-in-out infinite;
 }
 
@@ -259,15 +145,11 @@ body {
 
 .suspended-card::before {
   content: "";
-
   position: absolute;
-
   top: 0;
   left: 12%;
-
   width: 76%;
   height: 1px;
-
   background:
     linear-gradient(
       90deg,
@@ -275,7 +157,6 @@ body {
       rgba(239, 68, 68, 0.45),
       transparent
     );
-
   opacity: 0.7;
 }
 
@@ -292,22 +173,14 @@ body {
   display: inline-flex;
   align-items: center;
   gap: 8px;
-
   padding: 8px 13px;
-
   border-radius: 999px;
-
   border: 1px solid rgba(255, 255, 255, 0.08);
-
   background: rgba(255, 255, 255, 0.025);
-
   color: rgba(255, 255, 255, 0.45);
-
   font-size: 10px;
   font-weight: 600;
-
   letter-spacing: 0.7px;
-
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.025);
 }
@@ -315,14 +188,10 @@ body {
 .status-dot {
   width: 6px;
   height: 6px;
-
   border-radius: 50%;
-
   background: #ef4444;
-
   box-shadow:
     0 0 8px rgba(239, 68, 68, 0.8);
-
   animation: statusBlink 1.8s infinite;
 }
 
@@ -343,12 +212,9 @@ body {
 
 .lock-wrapper {
   position: relative;
-
   width: 82px;
   height: 82px;
-
   margin: 34px auto 24px;
-
   display: flex;
   align-items: center;
   justify-content: center;
@@ -356,12 +222,9 @@ body {
 
 .lock-bg-circle {
   position: absolute;
-
   width: 82px;
   height: 82px;
-
   border-radius: 50%;
-
   background:
     radial-gradient(
       circle,
@@ -369,12 +232,9 @@ body {
       rgba(239, 68, 68, 0.025) 55%,
       transparent 70%
     );
-
   border: 1px solid rgba(239, 68, 68, 0.08);
-
   box-shadow:
     0 0 40px rgba(239, 68, 68, 0.07);
-
   animation: lockPulse 3s ease-in-out infinite;
 }
 
@@ -391,9 +251,7 @@ body {
 
 .lock-svg {
   position: relative;
-
   color: #ef4444;
-
   filter:
     drop-shadow(
       0 0 10px rgba(239, 68, 68, 0.45)
@@ -406,17 +264,11 @@ body {
 
 .card-title {
   margin: 0;
-
   color: #f5f5f5;
-
   font-size: clamp(30px, 5vw, 44px);
-
   line-height: 1.05;
-
   font-weight: 750;
-
   letter-spacing: -1.7px;
-
   text-shadow:
     0 0 30px rgba(255, 255, 255, 0.04);
 }
@@ -427,13 +279,9 @@ body {
 
 .card-description {
   margin: 18px 0 0;
-
   color: rgba(255, 255, 255, 0.38);
-
   font-size: 13px;
-
   line-height: 1.7;
-
   letter-spacing: 0.2px;
 }
 
@@ -443,50 +291,35 @@ body {
 
 .launch-date {
   margin: 30px auto 20px;
-
   width: min(300px, 100%);
-
   padding: 16px 20px;
-
   border-radius: 14px;
-
   border: 1px solid rgba(239, 68, 68, 0.12);
-
   background:
     linear-gradient(
       135deg,
       rgba(239, 68, 68, 0.055),
       rgba(255, 255, 255, 0.015)
     );
-
   display: flex;
   flex-direction: column;
-
   gap: 5px;
-
   box-shadow:
     inset 0 1px rgba(255, 255, 255, 0.025);
 }
 
 .launch-label {
   color: rgba(248, 113, 113, 0.45);
-
   font-size: 8px;
-
   font-weight: 700;
-
   letter-spacing: 2px;
 }
 
 .launch-value {
   color: #fca5a5;
-
   font-size: 14px;
-
   font-weight: 700;
-
   letter-spacing: 1.5px;
-
   text-shadow:
     0 0 18px rgba(239, 68, 68, 0.25);
 }
@@ -497,29 +330,20 @@ body {
 
 .event-status {
   display: inline-flex;
-
   align-items: center;
   justify-content: center;
-
   gap: 7px;
-
   color: rgba(255, 255, 255, 0.25);
-
   font-size: 8px;
-
   font-weight: 700;
-
   letter-spacing: 1.6px;
 }
 
 .event-status-dot {
   width: 5px;
   height: 5px;
-
   border-radius: 50%;
-
   background: #ef4444;
-
   box-shadow:
     0 0 7px rgba(239, 68, 68, 0.7);
 }
@@ -530,30 +354,18 @@ body {
 
 .system-footer {
   position: absolute;
-
   bottom: 25px;
   left: 50%;
-
   transform: translateX(-50%);
-
   z-index: 5;
-
   width: calc(100% - 40px);
-
   display: flex;
-
   justify-content: center;
-
   gap: 28px;
-
   color: rgba(255, 255, 255, 0.16);
-
   font-size: 7px;
-
   font-weight: 700;
-
   letter-spacing: 1.4px;
-
   pointer-events: none;
 }
 
@@ -565,15 +377,12 @@ body {
   .live-indicator {
     top: 18px;
     left: 18px;
-
     font-size: 8px;
   }
 
   .suspended-card {
     width: calc(100% - 28px);
-
     padding: 40px 22px 32px;
-
     border-radius: 22px;
   }
 
@@ -583,7 +392,6 @@ body {
 
   .card-title {
     font-size: 31px;
-
     letter-spacing: -1px;
   }
 
@@ -593,16 +401,9 @@ body {
 
   .system-footer {
     bottom: 15px;
-
     gap: 12px;
-
     font-size: 6px;
-
     flex-wrap: wrap;
-  }
-
-  .grid-overlay {
-    background-size: 45px 45px;
   }
 }
 
