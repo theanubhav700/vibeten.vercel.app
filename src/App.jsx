@@ -346,7 +346,7 @@ function App() {
       {/* Top live indicator */}
       <div className="live-indicator">
         <span className="live-dot" />
-        <span>LIVE EVENT TRACKER</span>
+        <span><h1>LAUNCH DATE 1 JANUARY 2027.</h1></span>
       </div>
 
       {/* Main Card */}
@@ -356,7 +356,7 @@ function App() {
         <div className="status-container">
           <div className="status-pill">
             <span className="status-dot" />
-            vibeten.vercel.app
+           <h1>vibeten.vercel.app</h1> 
           </div>
         </div>
 
@@ -401,19 +401,15 @@ function App() {
         </h1>
 
         <p className="card-description">
-          Something exciting is being prepared.
+          <h3>Something exciting is being prepared.</h3>
           <br />
-          Stay tuned for the official launch.
+          <h4>Stay tuned for the official launch.</h4>
         </p>
 
         {/* Launch Date */}
         <div className="launch-date">
-          <span className="launch-label">
-            OFFICIAL LAUNCH
-          </span>
-
           <span className="launch-value">
-            01 JANUARY 2027
+          PRE-REGISTRATION OPEN NOW
           </span>
         </div>
 
