@@ -153,66 +153,30 @@ export default function CreateAccount({ onBack, onCreated }) {
 
   /* ── Main layout ── */
   return (
-    <div className="ca-root">
-      {/* ── LEFT PANEL ── */}
-      <div className="ca-left">
-        {/* blobs */}
-        <div className="ca-blob ca-blob-1" />
-        <div className="ca-blob ca-blob-2" />
-        <div className="ca-blob ca-blob-3" />
+    <div className="ca-page">
 
-        <div className="ca-left-inner">
-          <div className="ca-brand">NETMUSIC</div>
+      {/* ── NAVBAR ── */}
+      <nav className="ca-navbar">
+        <span className="ca-navbar-brand">NETMUSIC</span>
+        <button className="ca-navbar-btn">ACCOUNT REQUEST</button>
+      </nav>
 
-          <h1 className="ca-hero-title">
-            Your world<br />
-            of <span className="ca-red">music</span><br />
-            starts here.
-          </h1>
-          <p className="ca-hero-sub">
-            Create a free account and unlock unlimited streaming, exclusive tracks,
-            and personalised playlists — all in one place.
-          </p>
-
-          <ul className="ca-features">
-            {FEATURES.map((f, i) => (
-              <li key={i} className="ca-feature-item">
-                <span className="ca-feat-icon">{f.icon}</span>
-                <span>{f.text}</span>
-              </li>
-            ))}
-          </ul>
-
-          <div className="ca-stats">
-            <div className="ca-stat">
-              <span className="ca-stat-num">80M+</span>
-              <span className="ca-stat-label">Songs</span>
-            </div>
-            <div className="ca-stat-divider" />
-            <div className="ca-stat">
-              <span className="ca-stat-num">150+</span>
-              <span className="ca-stat-label">Countries</span>
-            </div>
-            <div className="ca-stat-divider" />
-            <div className="ca-stat">
-              <span className="ca-stat-num">5M+</span>
-              <span className="ca-stat-label">Listeners</span>
-            </div>
+      <div className="ca-root">
+        {/* ── LEFT PANEL — black + logo ── */}
+        <div className="ca-left">
+          <div className="ca-left-brand-wrap">
+            <img
+              src="/favicon.png"
+              alt="NETMUSIC logo"
+              className="ca-left-logo-img"
+            />
+            <span className="ca-left-brand-name">NETMUSIC</span>
           </div>
         </div>
-      </div>
 
-      {/* ── RIGHT PANEL ── */}
-      <div className="ca-right">
+        {/* ── RIGHT PANEL — dark red + form ── */}
+        <div className="ca-right">
         <div className="ca-form-panel">
-          {/* back button */}
-          <button className="ca-back-btn" onClick={onBack} aria-label="Go back">
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-              strokeLinecap="round" strokeLinejoin="round">
-              <path d="M19 12H5M12 5l-7 7 7 7" />
-            </svg>
-            Back
-          </button>
 
           <div className="ca-form-header">
             <h2 className="ca-form-title">Create Account</h2>
@@ -221,9 +185,9 @@ export default function CreateAccount({ onBack, onCreated }) {
 
           <form className="ca-form" onSubmit={handleSubmit} noValidate>
 
-            {/* Full Name */}
+            {/* First Name */}
             <div className={`ca-field ${errors.name ? 'ca-field--error' : ''}`}>
-              <label className="ca-label" htmlFor="ca-name">Full Name</label>
+              <label className="ca-label" htmlFor="ca-name">First name</label>
               <div className="ca-input-wrap">
                 <span className="ca-input-icon">
                   <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
@@ -234,7 +198,27 @@ export default function CreateAccount({ onBack, onCreated }) {
                 </span>
                 <input
                   id="ca-name" type="text" className="ca-input"
-                  placeholder="John Doe" value={form.name}
+                  placeholder="John" value={form.name}
+                  onChange={update('name')} autoComplete="name"
+                />
+              </div>
+              {errors.name && <span className="ca-error">{errors.name}</span>}
+            </div>
+
+            {/* last name */}
+            <div className={`ca-field ${errors.name ? 'ca-field--error' : ''}`}>
+              <label className="ca-label" htmlFor="ca-name">last name</label>
+              <div className="ca-input-wrap">
+                <span className="ca-input-icon">
+                  <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+                    strokeLinecap="round" strokeLinejoin="round">
+                    <circle cx="12" cy="8" r="4" />
+                    <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+                  </svg>
+                </span>
+                <input
+                  id="ca-name" type="text" className="ca-input"
+                  placeholder="Doe" value={form.name}
                   onChange={update('name')} autoComplete="name"
                 />
               </div>
@@ -254,7 +238,7 @@ export default function CreateAccount({ onBack, onCreated }) {
                 </span>
                 <input
                   id="ca-email" type="email" className="ca-input"
-                  placeholder="you@example.com" value={form.email}
+                  placeholder="abc@gmail.com" value={form.email}
                   onChange={update('email')} autoComplete="email"
                 />
               </div>
@@ -333,7 +317,14 @@ export default function CreateAccount({ onBack, onCreated }) {
             <button className="ca-signin-link" onClick={onBack}>Sign In</button>
           </p>
         </div>
+        </div>
       </div>
+      {/* ── FOOTER ── */}
+      <div className="ca-footer">
+        <div className="ca-footer-line" />
+        Made with ❤️ <span className="ca-footer-brand">NETMUSIC</span>
+      </div>
+
     </div>
   )
 }
