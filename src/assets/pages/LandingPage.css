@@ -42,8 +42,12 @@
   align-items: center;
   justify-content: space-between;
   padding: 18px 40px;
-  position: relative;
-  z-index: 10;
+  position: fixed;
+  top: 0;
+  left: 0;
+  right: 0;
+  z-index: 100;
+  background: linear-gradient(135deg, #000000 0%, #020d1f 60%, #041530 100%);
   border-bottom: 2px solid rgba(255, 255, 255, 0.15);
 }
 
@@ -209,6 +213,7 @@
   z-index: 5;
   overflow-y: auto;
   overflow-x: hidden;
+  padding-top: 70px;
 }
 
 /* spinner stays centered */
