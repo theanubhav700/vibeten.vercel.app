@@ -369,53 +369,5 @@ body {
   pointer-events: none;
 }
 
-/* ================================
-   MOBILE
-================================ */
 
-@media (max-width: 600px) {
-  .live-indicator {
-    top: 18px;
-    left: 18px;
-    font-size: 8px;
-  }
 
-  .suspended-card {
-    width: calc(100% - 28px);
-    padding: 40px 22px 32px;
-    border-radius: 22px;
-  }
-
-  .lock-wrapper {
-    margin-top: 28px;
-  }
-
-  .card-title {
-    font-size: 31px;
-    letter-spacing: -1px;
-  }
-
-  .card-description {
-    font-size: 12px;
-  }
-
-  .system-footer {
-    bottom: 15px;
-    gap: 12px;
-    font-size: 6px;
-    flex-wrap: wrap;
-  }
-}
-
-/* ================================
-   REDUCED MOTION
-================================ */
-
-@media (prefers-reduced-motion: reduce) {
-  *,
-  *::before,
-  *::after {
-    animation-duration: 0.01ms !important;
-    animation-iteration-count: 1 !important;
-  }
-}

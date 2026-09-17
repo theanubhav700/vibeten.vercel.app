@@ -1,25 +1,110 @@
-import { useState } from 'react'
+import { useState, useRef, useEffect } from 'react'
 import './HomePage.css'
 
 const firstName = (n = '') => n.trim().split(' ')[0] || 'Friend'
 
-const NAV_ITEMS = [
-  { id: 'Home',        icon: '🏠', label: 'Home' },
-  { id: 'Recent',      icon: '🕒', label: 'Recent' },
-  { id: 'Create',      icon: '➕', label: 'Create' },
-  { id: 'Library',     icon: '📚', label: 'Your Library' },
-  { id: 'Premium',     icon: '👑', label: 'Premium' },
-  { id: 'Liked',       icon: '❤️', label: 'Liked Songs' },
-  { id: 'Podcasts',    icon: '🎙', label: 'Podcasts' },
-  { id: 'Settings',    icon: '⚙️', label: 'Settings' },
+const BOTTOM_ITEMS = [
+  { id: 'Home',     label: 'Home',     icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
+      <polyline points="9 22 9 12 15 12 15 22"/>
+    </svg>
+  )},
+  { id: 'Discover', label: 'Discover', icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <circle cx="12" cy="12" r="10"/>
+      <polygon points="16.24 7.76 14.12 14.12 7.76 16.24 9.88 9.88 16.24 7.76"/>
+    </svg>
+  )},
+  { id: 'LikedMusic', label: 'Liked Music', icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <path d="M20.84 4.61a5.5 5.5 0 00-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 00-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 000-7.78z"/>
+    </svg>
+  )},
+  { id: 'History',  label: 'History',  icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <circle cx="12" cy="12" r="10"/>
+      <polyline points="12 6 12 12 16 14"/>
+    </svg>
+  )},
+  { id: 'Followers', label: 'Followers', icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <path d="M17 21v-2a4 4 0 00-4-4H5a4 4 0 00-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <path d="M23 21v-2a4 4 0 00-3-3.87"/>
+      <path d="M16 3.13a4 4 0 010 7.75"/>
+    </svg>
+  )},
+  { id: 'Following', label: 'Following', icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <path d="M16 21v-2a4 4 0 00-4-4H6a4 4 0 00-4 4v2"/>
+      <circle cx="9" cy="7" r="4"/>
+      <polyline points="16 11 18 13 22 9"/>
+    </svg>
+  )},
+  { id: 'Premium',  label: 'Premium',  icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <path d="M12 2l3.09 6.26L22 9.27l-5 4.87 1.18 6.88L12 17.77l-6.18 3.25L7 14.14 2 9.27l6.91-1.01L12 2z"/>
+    </svg>
+  )},
+  { id: 'Downloads', label: 'Downloads', icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <path d="M21 15v4a2 2 0 01-2 2H5a2 2 0 01-2-2v-4"/>
+      <polyline points="7 10 12 15 17 10"/>
+      <line x1="12" y1="15" x2="12" y2="3"/>
+    </svg>
+  )},
+  { id: 'Settings', label: 'Settings', icon: (
+    <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+      <circle cx="12" cy="12" r="3"/>
+      <path d="M19.4 15a1.65 1.65 0 00.33 1.82l.06.06a2 2 0 010 2.83 2 2 0 01-2.83 0l-.06-.06a1.65 1.65 0 00-1.82-.33 1.65 1.65 0 00-1 1.51V21a2 2 0 01-4 0v-.09A1.65 1.65 0 009 19.4a1.65 1.65 0 00-1.82.33l-.06.06a2 2 0 01-2.83-2.83l.06-.06A1.65 1.65 0 004.68 15a1.65 1.65 0 00-1.51-1H3a2 2 0 010-4h.09A1.65 1.65 0 004.6 9a1.65 1.65 0 00-.33-1.82l-.06-.06a2 2 0 012.83-2.83l.06.06A1.65 1.65 0 009 4.68a1.65 1.65 0 001-1.51V3a2 2 0 014 0v.09a1.65 1.65 0 001 1.51 1.65 1.65 0 001.82-.33l.06-.06a2 2 0 012.83 2.83l-.06.06A1.65 1.65 0 0019.4 9a1.65 1.65 0 001.51 1H21a2 2 0 010 4h-.09a1.65 1.65 0 00-1.51 1z"/>
+    </svg>
+  )},
 ]
 
 export default function HomePage({ name, onLogout }) {
   const nick                      = firstName(name)
   const [showMenu, setShowMenu]   = useState(false)
   const [dark, setDark]           = useState(true)
-  const [sideOpen, setSideOpen]   = useState(false)
-  const [activeNav, setActiveNav] = useState('Home')
+  const [activeTab, setActiveTab] = useState('Home')
+  const [chatOpen, setChatOpen]   = useState(false)
+  const [messages, setMessages]   = useState([
+    { id: 1, from: 'system', text: `Hey ${nick}! 👋 What are you listening to?` }
+  ])
+  const [inputVal, setInputVal]   = useState('')
+  const [searchVal, setSearchVal] = useState('')
+  const [isListening, setIsListening] = useState(false)
+  const messagesEndRef             = useRef(null)
+
+  useEffect(() => {
+    if (chatOpen) messagesEndRef.current?.scrollIntoView({ behavior: 'smooth' })
+  }, [messages, chatOpen])
+
+  const sendMessage = () => {
+    const text = inputVal.trim()
+    if (!text) return
+    setMessages(prev => [...prev, { id: Date.now(), from: 'me', text }])
+    setInputVal('')
+  }
+
+  const handleKeyDown = (e) => {
+    if (e.key === 'Enter' && !e.shiftKey) { e.preventDefault(); sendMessage() }
+  }
+
+  const handleMic = () => {
+    const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition
+    if (!SpeechRecognition) { alert('Your browser does not support voice search.'); return }
+    if (isListening) return
+    const recognition = new SpeechRecognition()
+    recognition.lang = 'en-US'
+    recognition.interimResults = false
+    recognition.maxAlternatives = 1
+    setIsListening(true)
+    recognition.start()
+    recognition.onresult  = (e) => { setSearchVal(e.results[0][0].transcript); setIsListening(false) }
+    recognition.onerror   = ()  => setIsListening(false)
+    recognition.onend     = ()  => setIsListening(false)
+  }
 
   return (
     <div
@@ -29,25 +114,10 @@ export default function HomePage({ name, onLogout }) {
 
       {/* ══ NAVBAR ══ */}
       <nav className="hp-nav">
-
-        {/* LEFT — toggle + brand */}
         <div className="hp-nav-left">
-          <button
-            className="hp-hamburger"
-            aria-label="Toggle sidebar"
-            onClick={e => { e.stopPropagation(); setSideOpen(v => !v) }}
-          >
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-              strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
-              <rect x="3" y="3" width="18" height="18" rx="3" />
-              <path d="M9 3v18" />
-              <path d="M15 10l-3 3 3 3" />
-            </svg>
-          </button>
           <span className="hp-brand">NETMUSIC</span>
         </div>
 
-        {/* CENTER — searchbar */}
         <div className="hp-nav-center">
           <div className="hp-searchbar">
             <svg className="hp-searchbar-icon" viewBox="0 0 24 24" fill="none"
@@ -55,16 +125,38 @@ export default function HomePage({ name, onLogout }) {
               strokeLinejoin="round" width="16" height="16">
               <circle cx="11" cy="11" r="8" /><path d="M21 21l-4.35-4.35" />
             </svg>
-            <input
-              className="hp-searchbar-input"
-              type="text"
-              placeholder="What do you want to play?"
-              aria-label="Search"
+            <input className="hp-searchbar-input" type="text"
+              placeholder="What do you want to play?" aria-label="Search"
+              value={searchVal}
+              onChange={e => setSearchVal(e.target.value)}
             />
+            <button
+              className={`hp-mic-btn ${isListening ? 'hp-mic-btn--active' : ''}`}
+              onClick={handleMic}
+              aria-label="Voice search"
+              title="Voice search"
+            >
+              {isListening ? (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                  <rect x="9" y="2" width="6" height="12" rx="3" fill="currentColor" stroke="none"/>
+                  <path d="M5 10a7 7 0 0014 0"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                  <line x1="8"  y1="23" x2="16" y2="23"/>
+                </svg>
+              ) : (
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                  <rect x="9" y="2" width="6" height="12" rx="3"/>
+                  <path d="M5 10a7 7 0 0014 0"/>
+                  <line x1="12" y1="19" x2="12" y2="23"/>
+                  <line x1="8"  y1="23" x2="16" y2="23"/>
+                </svg>
+              )}
+            </button>
           </div>
         </div>
 
-        {/* RIGHT — create + bell + avatar */}
         <div className="hp-nav-right">
           <button className="hp-create-btn">
             <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
@@ -128,130 +220,103 @@ export default function HomePage({ name, onLogout }) {
         </div>
       </nav>
 
-      {/* ══ BODY = sidebar + main content ══ */}
-      <div className="hp-body">
+      {/* ══ MAIN CONTENT ══ */}
+      <main className="hp-main">
+        {/* Main content */}
+      </main>
 
-        {/* SIDEBAR — inline on desktop */}
-        <aside className={`hp-sidebar ${sideOpen ? 'hp-sidebar-open' : ''}`}>
+      {/* ══ CHAT PANEL ══ */}
+      <div className={`hp-chat-panel ${chatOpen ? 'hp-chat-panel--open' : ''}`}
+        onClick={e => e.stopPropagation()}>
 
-          {/* User info */}
-          <div className="hp-sidebar-user">
-            <div className="hp-sidebar-avatar">{nick[0].toUpperCase()}</div>
-            <div className="hp-sidebar-user-info">
-              <span className="hp-sidebar-name">{name}</span>
-              <span className="hp-sidebar-plan">Free Account</span>
+        {/* Chat header */}
+        <div className="hp-chat-header">
+          <div className="hp-chat-header-left">
+            <div className="hp-chat-avatar">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
+                <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+              </svg>
+            </div>
+            <div>
+              <p className="hp-chat-title">NETMUSIC Chat</p>
+              <p className="hp-chat-status">
+                <span className="hp-chat-online-dot" /> Online
+              </p>
             </div>
           </div>
-
-          {/* Navigation Links inside Desktop Sidebar */}
-          <nav className="hp-sidebar-nav">
-            {NAV_ITEMS.map(item => (
-              <button
-                key={item.id}
-                className={`hp-sidebar-link ${activeNav === item.id ? 'active' : ''}`}
-                onClick={() => setActiveNav(item.id)}
-              >
-                <span className="hp-sidebar-icon">{item.icon}</span>
-                <span className="hp-sidebar-label">{item.label}</span>
-              </button>
-            ))}
-          </nav>
-
-          <button className="hp-sidebar-logout" onClick={onLogout}>
-            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
-              strokeLinecap="round" strokeLinejoin="round" width="16" height="16">
-              <path d="M9 21H5a2 2 0 01-2-2V5a2 2 0 012-2h4" />
-              <polyline points="16 17 21 12 16 7" />
-              <line x1="21" y1="12" x2="9" y2="12" />
+          <button className="hp-chat-close" onClick={() => setChatOpen(false)} aria-label="Close chat">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5"
+              strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+              <line x1="18" y1="6" x2="6" y2="18"/>
+              <line x1="6" y1="6" x2="18" y2="18"/>
             </svg>
-            Log out
           </button>
+        </div>
 
-        </aside>
+        {/* Messages */}
+        <div className="hp-chat-messages">
+          {messages.map(msg => (
+            <div key={msg.id} className={`hp-chat-msg ${msg.from === 'me' ? 'hp-chat-msg--me' : 'hp-chat-msg--them'}`}>
+              <span className="hp-chat-bubble">{msg.text}</span>
+            </div>
+          ))}
+          <div ref={messagesEndRef} />
+        </div>
 
-        {/* MAIN CONTENT */}
-        <main className="hp-main">
-          {/* Main content placeholder / views */}
-        </main>
-
+        {/* Input */}
+        <div className="hp-chat-input-row">
+          <input
+            className="hp-chat-input"
+            type="text"
+            placeholder="Type a message..."
+            value={inputVal}
+            onChange={e => setInputVal(e.target.value)}
+            onKeyDown={handleKeyDown}
+          />
+          <button className="hp-chat-send" onClick={sendMessage} aria-label="Send">
+            <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.2"
+              strokeLinecap="round" strokeLinejoin="round" width="18" height="18">
+              <line x1="22" y1="2" x2="11" y2="13"/>
+              <polygon points="22 2 15 22 11 13 2 9 22 2"/>
+            </svg>
+          </button>
+        </div>
       </div>
 
-      {/* ══ MOBILE BOTTOM NAVIGATION BAR ══ */}
-      <nav className="hp-bottom-nav" aria-label="Mobile Navigation">
-
-        {/* 1. Home */}
-        <button
-          className={`hp-bottom-btn ${activeNav === 'Home' ? 'active' : ''}`}
-          onClick={() => setActiveNav('Home')}
-        >
-          <span className="hp-bottom-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M3 9l9-7 9 7v11a2 2 0 01-2 2H5a2 2 0 01-2-2z"/>
-              <polyline points="9 22 9 12 15 12 15 22"/>
-            </svg>
-          </span>
-          <span>Home</span>
-        </button>
-
-        {/* 2. Recent */}
-        <button
-          className={`hp-bottom-btn ${activeNav === 'Recent' ? 'active' : ''}`}
-          onClick={() => setActiveNav('Recent')}
-        >
-          <span className="hp-bottom-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <polyline points="12 6 12 12 16 14"/>
-            </svg>
-          </span>
-          <span>Recent</span>
-        </button>
-
-        {/* 3. Create */}
-        <button
-          className={`hp-bottom-btn ${activeNav === 'Create' ? 'active' : ''}`}
-          onClick={() => setActiveNav('Create')}
-        >
-          <span className="hp-bottom-icon">
-            <svg width="22" height="22" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5" strokeLinecap="round" strokeLinejoin="round">
-              <circle cx="12" cy="12" r="10"/>
-              <line x1="12" y1="8" x2="12" y2="16"/>
-              <line x1="8" y1="12" x2="16" y2="12"/>
-            </svg>
-          </span>
-          <span>Create</span>
-        </button>
-
-        {/* 4. Your Library */}
-        <button
-          className={`hp-bottom-btn ${activeNav === 'Library' ? 'active' : ''}`}
-          onClick={() => setActiveNav('Library')}
-        >
-          <span className="hp-bottom-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M4 19.5A2.5 2.5 0 016.5 17H20"/>
-              <path d="M6.5 2H20v20H6.5A2.5 2.5 0 014 19.5v-15A2.5 2.5 0 016.5 2z"/>
-            </svg>
-          </span>
-          <span>Your Library</span>
-        </button>
-
-        {/* 5. Premium */}
-        <button
-          className={`hp-bottom-btn ${activeNav === 'Premium' ? 'active' : ''}`}
-          onClick={() => setActiveNav('Premium')}
-        >
-          <span className="hp-bottom-icon">
-            <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-              <path d="M2 4l3 12h14l3-12-6 7-4-7-4 7-6-7zm3 16h14"/>
-            </svg>
-          </span>
-          <span>Premium</span>
-        </button>
-
+      {/* ══ BOTTOM NAV ══ */}
+      <nav className="hp-bottom-nav">
+        {BOTTOM_ITEMS.map(item => (
+          <button
+            key={item.id}
+            className={`hp-bottom-btn ${activeTab === item.id ? 'hp-bottom-btn--active' : ''}`}
+            onClick={() => setActiveTab(item.id)}
+          >
+            <span className="hp-bottom-icon">{item.icon}</span>
+            <span className="hp-bottom-label">{item.label}</span>
+          </button>
+        )).reduce((acc, btn, i) => {
+          acc.push(btn)
+          // insert Chat after Library (index 2)
+          if (i === 2) acc.push(
+            <button
+              key="Chat"
+              className={`hp-bottom-btn ${chatOpen ? 'hp-bottom-btn--active' : ''}`}
+              onClick={e => { e.stopPropagation(); setChatOpen(v => !v) }}
+            >
+              <span className="hp-bottom-icon">
+                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                  strokeLinecap="round" strokeLinejoin="round" width="22" height="22">
+                  <path d="M21 15a2 2 0 01-2 2H7l-4 4V5a2 2 0 012-2h14a2 2 0 012 2z"/>
+                </svg>
+              </span>
+              <span className="hp-bottom-label">Chat</span>
+            </button>
+          )
+          return acc
+        }, [])}
       </nav>
 
     </div>
   )
 }
-

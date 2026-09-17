@@ -60,6 +60,17 @@ export default function LandingPage({ onCreateAccount, onSignIn }) {
   const [password, setPassword]   = useState('')
   const [showPass, setShowPass]   = useState(false)
   const [signInError, setSignInError] = useState('')
+  const [requestCount, setRequestCount] = useState(0)
+
+  // Count pending account requests from localStorage
+  useEffect(() => {
+    const accounts = JSON.parse(localStorage.getItem('nm_accounts') || '[]')
+    setRequestCount(accounts.length)
+  }, [])
+
+  const [showHowItWorks, setShowHowItWorks] = useState(false)
+  const [showAbout, setShowAbout]           = useState(false)
+  const [showTerms, setShowTerms]           = useState(false)
 
   // drag-scroll state
   const [isDragging, setIsDragging] = useState(false)
@@ -108,13 +119,177 @@ export default function LandingPage({ onCreateAccount, onSignIn }) {
 
   return (
     <div className="landing-root">
+      {/* ── How It Works Modal ── */}
+      {showHowItWorks && (
+        <div className="hiw-overlay" onClick={() => setShowHowItWorks(false)}>
+          <div className="hiw-modal" onClick={e => e.stopPropagation()}>
+            <button className="hiw-close" onClick={() => setShowHowItWorks(false)} aria-label="Close">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <h2 className="hiw-title">How It Works</h2>
+            <p className="hiw-sub">Get started with NETMUSIC in 3 simple steps</p>
+            <div className="hiw-steps">
+              <div className="hiw-step">
+                <div className="hiw-step-num">01</div>
+                <div className="hiw-step-icon">📝</div>
+                <h3 className="hiw-step-title">Create an Account</h3>
+                <p className="hiw-step-desc">Sign up for free — no credit card needed. Just your name, email and a password.</p>
+              </div>
+              <div className="hiw-step">
+                <div className="hiw-step-num">02</div>
+                <div className="hiw-step-icon">🔑</div>
+                <h3 className="hiw-step-title">Sign In</h3>
+                <p className="hiw-step-desc">Log in with your credentials and access your personalised music dashboard instantly.</p>
+              </div>
+              <div className="hiw-step">
+                <div className="hiw-step-num">03</div>
+                <div className="hiw-step-icon">🎵</div>
+                <h3 className="hiw-step-title">Start Listening</h3>
+                <p className="hiw-step-desc">Stream millions of songs, podcasts and playlists — ad-free, anytime, anywhere.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── About Modal ── */}
+      {showAbout && (
+        <div className="hiw-overlay" onClick={() => setShowAbout(false)}>
+          <div className="hiw-modal" onClick={e => e.stopPropagation()}>
+            <button className="hiw-close" onClick={() => setShowAbout(false)} aria-label="Close">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <h2 className="hiw-title">About NETMUSIC</h2>
+            <p className="hiw-sub">Your all-in-one music streaming platform</p>
+            <div className="about-body">
+              <div className="about-logo-row">
+                <img src="/favicon.png" alt="NETMUSIC" className="about-logo-img" />
+                <span className="about-brand">NETMUSIC</span>
+              </div>
+              <p className="about-desc">
+                NETMUSIC is a modern music streaming platform built for music lovers everywhere.
+                We believe great music should be accessible to everyone — free from ads, free from limits.
+              </p>
+              <div className="about-stats">
+                <div className="about-stat">
+                  <span className="about-stat-val">10M+</span>
+                  <span className="about-stat-label">Songs</span>
+                </div>
+                <div className="about-stat">
+                  <span className="about-stat-val">50K+</span>
+                  <span className="about-stat-label">Artists</span>
+                </div>
+                <div className="about-stat">
+                  <span className="about-stat-val">100+</span>
+                  <span className="about-stat-label">Countries</span>
+                </div>
+                <div className="about-stat">
+                  <span className="about-stat-val">Free</span>
+                  <span className="about-stat-label">Forever</span>
+                </div>
+              </div>
+              <p className="about-footer">Made with ❤️ by the <span className="about-red">NETMUSIC</span> team.</p>
+            </div>
+          </div>
+        </div>
+      )}
+
+      {/* ── Terms & Conditions Modal ── */}
+      {showTerms && (
+        <div className="hiw-overlay" onClick={() => setShowTerms(false)}>
+          <div className="hiw-modal terms-modal" onClick={e => e.stopPropagation()}>
+            <button className="hiw-close" onClick={() => setShowTerms(false)} aria-label="Close">
+              <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"
+                strokeLinecap="round" strokeLinejoin="round">
+                <line x1="18" y1="6" x2="6" y2="18" />
+                <line x1="6" y1="6" x2="18" y2="18" />
+              </svg>
+            </button>
+            <h2 className="hiw-title">Terms &amp; Conditions</h2>
+            <p className="hiw-sub">Last updated: September 2026</p>
+            <div className="terms-body">
+              <div className="terms-section">
+                <h3 className="terms-heading">1. Acceptance of Terms</h3>
+                <p className="terms-text">By accessing or using NETMUSIC, you agree to be bound by these Terms and Conditions. If you do not agree, please do not use the service.</p>
+              </div>
+              <div className="terms-section">
+                <h3 className="terms-heading">2. Account Registration</h3>
+                <p className="terms-text">You must provide accurate information when creating an account. You are responsible for maintaining the confidentiality of your credentials and all activity under your account.</p>
+              </div>
+              <div className="terms-section">
+                <h3 className="terms-heading">3. Acceptable Use</h3>
+                <p className="terms-text">You agree not to misuse the platform, attempt to gain unauthorised access, distribute malware, or use the service for any unlawful purpose.</p>
+              </div>
+              <div className="terms-section">
+                <h3 className="terms-heading">4. Intellectual Property</h3>
+                <p className="terms-text">All content on NETMUSIC including music, artwork, and logos are protected by copyright. Unauthorised reproduction or distribution is strictly prohibited.</p>
+              </div>
+              <div className="terms-section">
+                <h3 className="terms-heading">5. Privacy</h3>
+                <p className="terms-text">We respect your privacy. Your personal data is stored locally and is never shared with third parties without your explicit consent.</p>
+              </div>
+              <div className="terms-section">
+                <h3 className="terms-heading">6. Termination</h3>
+                <p className="terms-text">We reserve the right to suspend or terminate accounts that violate these terms without prior notice.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+
       {/* ── Navbar ── */}
       <nav className="landing-nav">
         <div className="landing-logo">
           <span className="brand-logo">{txt.brand}</span>
         </div>
         <div className="landing-nav-right">
-          <button className="account-request-btn">{txt.accountRequest}</button>
+          <button className="nav-btn" onClick={onCreateAccount}>
+            <svg className="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+              strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="8" r="4" />
+              <path d="M4 20c0-4 3.6-7 8-7s8 3 8 7" />
+              <line x1="19" y1="8" x2="19" y2="14" />
+              <line x1="16" y1="11" x2="22" y2="11" />
+            </svg>
+            Account Request
+          </button>
+          <button className="nav-btn">{txt.accountRequest}</button>
+          <button className="nav-btn" onClick={() => setShowHowItWorks(true)}>
+            <svg className="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+              strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 16v-4" />
+              <path d="M12 8h.01" />
+            </svg>
+            How It Works
+          </button>
+          <button className="nav-btn" onClick={() => setShowTerms(true)}>
+            <svg className="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+              strokeLinecap="round" strokeLinejoin="round">
+              <path d="M14 2H6a2 2 0 00-2 2v16a2 2 0 002 2h12a2 2 0 002-2V8z" />
+              <polyline points="14 2 14 8 20 8" />
+              <line x1="16" y1="13" x2="8" y2="13" />
+              <line x1="16" y1="17" x2="8" y2="17" />
+            </svg>
+            Terms
+          </button>
+          <button className="nav-btn" onClick={() => setShowAbout(true)}>
+            <svg className="nav-btn-icon" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8"
+              strokeLinecap="round" strokeLinejoin="round">
+              <circle cx="12" cy="12" r="10" />
+              <path d="M12 8h.01" />
+              <path d="M11 12h1v4h1" />
+            </svg>
+            About
+          </button>
         </div>
       </nav>
 
@@ -232,6 +407,12 @@ export default function LandingPage({ onCreateAccount, onSignIn }) {
           </>
         )}
       </main>
+
+      {/* ── Footer ── */}
+      <footer className="landing-footer">
+        <div className="landing-footer-line" />
+        Made with ❤️ <span className="landing-footer-brand">NETMUSIC</span>
+      </footer>
 
     </div>
   )
